@@ -8,24 +8,23 @@
 - cloud function 
 
 ### Prerequisites
-- Make sure zip is installed on your system
 - Prepare terraform.tfvars file in root
-
 
 ### Deploy:
 - terraform init
 - terraform apply
 - Note the value of the output log_sink_service_account. Give this account the Pubsub Publisher role on the Pub/Sub topic.
+- cd code
+- Prepare and run the gcloud command:
+
+gcloud functions deploy backuphealth-slack-notifications  --runtime python312  --entry-point main   --trigger-event providers/cloud.pubsub/eventTypes/topic.publish   --trigger-resource <pubsub topic name>  --set-env-vars SLACK_WEBHOOK_URL=<Slack webhook url>  --region us-central1
+
 
 
 
 ### Variables
 
-
 | variable        | description                                                                                                                    | required | default value                                                             |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------- | ------------------------------------------------------------------------- |
 | project         | id of the project              to deploy the service                            | required |                                                                           |
-| region          | GCP region to deploy the service                                                                                               | required |                                                                           |
-| bucket_name        | Name for the gcf bucket to keep the code                                                                                      | required |                                                                           |
-| webhook_url | The URL of the Slack webhook | required |  
-| topic_name | Name for Pub/Sub topic | optional  |  "backuphealth-slack-notifications"                                                                |
+| topic_name         | name for the pubsub topic                         | Optional |   "backuphealth-slack-notifications"                                                                        |
