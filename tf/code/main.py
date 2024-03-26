@@ -1,6 +1,5 @@
 import json
 import os
-from google.cloud.logging import DESCENDING, Client
 import base64
 import requests
 from datetime import datetime
